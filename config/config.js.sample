@@ -1,0 +1,49 @@
+/* exported config */
+
+/* Magic Mirror Config
+ *
+ * By Michael Teeuw http://michaelteeuw.nl
+ * MIT Licensed.
+ */
+
+var config = {
+
+	language: 'en',
+	timeFormat: 24,
+
+	modules: [
+		{
+			module: 'clock',
+			position: 'top_left'
+		},
+		{
+			module: 'compliments',
+			position: 'lower_third',
+		},
+		{
+			module: 'currentweather',
+			position: 'top_right',
+			config: {
+				location: 'New York',
+				appid: 'YOUR_OPENWEATHER_API_KEY'
+			}
+		},
+		{
+			module: 'weatherforecast',
+			position: 'top_right',
+			header: 'Weather Forecast',
+			config: {
+	            location: 'New York',
+	            appid: 'YOUR_OPENWEATHER_API_KEY'
+			}
+		},
+		{
+			module: 'helloworld',
+			position: 'bottom_bar',
+			config: {
+				text: 'Magic Mirror V2'
+			}
+		},
+	]
+	
+};
