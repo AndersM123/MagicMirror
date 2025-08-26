@@ -4,7 +4,8 @@ Module.register("MMM-ATB", {
 		lines: [],
 		maxDepartures: 10,
 		reloadInterval: 60*1000,
-		animationSpeed: 250
+		animationSpeed: 250,
+		minMinutesToShow: 1 // hides 0-min departures
 	},
 
 	start() {
@@ -27,7 +28,8 @@ Module.register("MMM-ATB", {
 		this.sendSocketNotification("ATB_FETCH", {
 			stopId: this.config.stopId,
 			lines: this.config.lines,
-			max: this.config.maxDepartures
+			max: this.config.maxDepartures,
+			minMinutesToShow: this.config.minMinutesToShow
 		});
 	},
 

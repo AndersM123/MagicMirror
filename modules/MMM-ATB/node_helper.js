@@ -14,15 +14,13 @@ module.exports = NodeHelper.create({
 		}
 	},
 
-	async fetchDepartures({ stopId, lines = [], max = 8 }) {
+	async fetchDepartures({ stopId, lines = [], max = 8, minMinutesToShow = 1 }) {
 		if (!stopId) throw new Error("Missing stopId");
 
 		// TODO: Replace with the actual ATB/Entur endpoint you use.
 		// Many ATB integrations use Entur’s Journey Planner GraphQL or REST.
 		// Example (pseudo): GET https://api.entur.io/journey-planner/v3/... with headers incl. Client-Name
 		const url = `https://mpolden.no/atb/v2/departures/${stopId}?direction=inbound`;
-
-		console.log("[MMM-ATB] URL:", url);
 
 		const res = await fetch(url, {
 			headers: {
@@ -45,17 +43,19 @@ module.exports = NodeHelper.create({
 
 
 		const data = await res.json();
-
+		const now = Date.now();
 		// Map the API response -> front-end friendly array
 		// Adjust these paths to match the real payload structure.
 		let list = (data.departures || []).map(d => {
 			const ts = parseLocalISO(d.scheduledDepartureTime); // <-- use parser
+			const diffMin = Math.floor((ts - now) / 60000); // 0 when <60s away
 			return {
 				line: d.line,
 				destination: d.destination,
 				aimed: d.scheduledDepartureTime,
 				realtime: !!d.isRealtimeData,
-				_ts: ts
+				_ts: ts,
+				_min: diffMin
 			};
 		});
 
@@ -64,10 +64,9 @@ module.exports = NodeHelper.create({
 		}
 
 		// Build display time (min or clock)
-
-		const now = Date.now();
 		list = list
 			.filter(d => Number.isFinite(d._ts))
+			.filter(d => d._min >= minMinutesToShow)
 			.sort((a, b) => a._ts - b._ts)
 			.slice(0, max)
 			.map(d => {
