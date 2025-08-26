@@ -2,7 +2,7 @@ Module.register("MMM-ATB", {
 	defaults: {
 		stopId: "42530",
 		lines: [],
-		maxDepartures: 10,
+		maxDepartures: 7,
 		reloadInterval: 60*1000,
 		animationSpeed: 250,
 		minMinutesToShow: 1 // hides 0-min departures
