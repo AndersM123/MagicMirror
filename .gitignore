@@ -15,6 +15,9 @@ jspm_modules
 .npm
 .node_repl_history
 
+# config private
+config/*
+
 # Visual Studio Code ignoramuses.
 .vscode/
 
