@@ -56,16 +56,17 @@ let config = {
 		},
 		{
 			module: "calendar",
-			header: "Norwegian Holidays",
 			position: "top_left",
 			config: {
 				calendars: [
 					{
-						fetchInterval: 7 * 24 * 60 * 60 * 1000,
-						symbol: "calendar-check",
-						url: "https://www.officeholidays.com/ics-clean/norway"
+						url: "https://www.officeholidays.com/ics-clean/norway",
+						name: "holidays",
+						symbol: "calendar"
 					}
-				]
+				],
+				maximumEntries: 50,
+				fetchInterval: 5 * 60 * 1000 // 5 minutes
 			}
 		},
 		{
